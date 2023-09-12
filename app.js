@@ -2,6 +2,8 @@ const express = require('express')
 const app=express()
 const tasks= require('./routes/tasks')
 const connectionDb= require('./db/connection')
+const notFound = require('./middleware/not_found')
+const errorHandler = require('./middleware/error-handler')
 require('dotenv').config()
 
 //setting up the middleware
@@ -16,6 +18,10 @@ app.get('/task', (req, res)=>{
 app.use('/api/v1/tasks', tasks)
 
 app.use('api/v1/tasks/:id', tasks)
+
+app.use(notFound)
+
+app.use(errorHandler)
 
 const port = 3000
 
